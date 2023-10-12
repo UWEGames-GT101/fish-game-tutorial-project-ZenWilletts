@@ -62,7 +62,15 @@ class MyASGEGame(pyasge.ASGEGame):
             return False
 
     def initFish(self) -> bool:
-        pass
+        if self.fish.loadTexture("/data/images/kenney_fishpack/fishTile_073.png"):
+            self.fish.z_order = 1
+            self.fish.scale = 1
+            self.fish.x = 300
+            self.fish.y = 300
+            self.spawn()
+            return True
+
+        return False
 
     def initScoreboard(self) -> None:
         pass
@@ -76,7 +84,7 @@ class MyASGEGame(pyasge.ASGEGame):
 
         #start button
         self.play_option = pyasge.Text(self.data.fonts["MainFont"])
-        self.play_option.string = ">PLAY"
+        self.play_option.string = ">START"
         self.play_option.position = [100, 400]
         self.play_option.colour = pyasge.COLOURS.HOTPINK
 
@@ -114,7 +122,11 @@ class MyASGEGame(pyasge.ASGEGame):
                 self.signalExit()
 
     def spawn(self) -> None:
-        pass
+        x = random.randint(0, self.data.game_res[0] - self.fish.width)
+        y = random.randint(0, self.data.game_res[1] - self.fish.height)
+
+        self.fish.x = x
+        self.fish.y = y
 
     def update(self, game_time: pyasge.GameTime) -> None:
 
@@ -142,7 +154,9 @@ class MyASGEGame(pyasge.ASGEGame):
             self.data.renderer.render(self.exit_option)
         else:
             # render the game here
-            pass
+            self.data.renderer.render(self.data.background)
+            self.data.renderer.render(self.fish)
+
 
 
 def main():
